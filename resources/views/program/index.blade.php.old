@@ -1,0 +1,64 @@
+@extends('templates.layout')
+@section('title', 'Bioclin '.ucfirst(__('welcome.protocolo')))
+@section('content')
+
+    <div class="w-full max-w-10xl mx-auto bg-slate-50 px-4 py-6">
+        <div class="w-full max-w-10xl mx-auto p-4 border rounded-lg" id="accordion-collapse" data-accordion="collapse">
+            <h1 class="text-4xl font-semibold px-2 py-4 w-full bg-slate-50 text-bioclin capitalize">{{__('welcome.protocolo')}}</h1>
+            <div class="w-full flex flex-col gap-4" data-accordion="collapse"
+                 data-active-classes="font-bold bg-cinza-bioclin text-slate-700" data-inactive-classes="text-slate-100">
+                @foreach ($content as $item)
+                    @if($item['tipo'] == "pasta")
+                        <div class="text-slate-100 font-medium flex flex-col md:flex-row md:justify-between md:items-center"
+                             id="accordion-{{$item['slug']}}">
+                            <div class="w-full bg-bioclin p-4 flex items-center gap-3 text-slate-100 cursor-pointer"
+                                 data-accordion-target="#accordion-body-{{$item['slug']}}" aria-expanded="false"
+                                 aria-controls="accordion-body-{{$item['slug']}}">
+                                <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0"
+                                     aria-hidden="true"
+                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                          stroke-width="2" d="M9 5 5 1 1 5"/>
+                                </svg>
+                                <span class="truncate text-base md:text-lg lg:text-xl font-semibold"> {{$item['nome']}}</span>
+                            </div>
+                            <form action="/download-compactado" method="GET"
+                                  class=" md:hover:scale-110 duration-200 bg-slate-500 py-5 px-4 shadow-lg md:rounded-r-3xl">
+                                <input type="hidden" name="diretorio" value="{{ $item['caminho'] }}">
+                                <button type="submit" class="flex items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="md:w-4 w-6 h-6 md:h-4 text-white">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M12 9.75v6.75m0 0-3-3m3 3 3-3m-8.25 6a4.5 4.5 0 0 1-1.41-8.775 5.25 5.25 0 0 1 10.233-2.33 3 3 0 0 1 3.758 3.848A3.752 3.752 0 0 1 18 19.5H6.75Z"/>
+                                    </svg>
+                                    <span class="md:hidden font-semibold">Download</span>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="flex flex-col gap-2 pl-6 hidden border py-4" id="accordion-body-{{$item['slug']}}"
+                             aria-labelledby="accordion-{{$item['slug']}}">
+                            @foreach($item['conteudo'] as $arquivo)
+                                @if($arquivo['tipo'] === 'arquivo')
+                                    <div class="flex items-center hover:underline duration-200 hover:text-cyan-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor"
+                                             class="w-6 h-6 mr-3 text-red-400">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                                        </svg>
+                                        <a href="{{asset('storage/equipamentos/'.$item['nome'].'/'.$arquivo['nome'])}}"
+                                           target="_blank"
+                                           class="truncate">
+                                            {{$arquivo['nome']}}
+                                        </a>
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+@endsection

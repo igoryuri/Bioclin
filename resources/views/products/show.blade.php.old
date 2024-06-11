@@ -1,0 +1,307 @@
+@php use Illuminate\Support\Str; @endphp
+@extends('templates.layout')
+@section('title', "Bioclin ".$product->name)
+@section('content')
+    <main class="min-h-screen">
+        <div class="flex sm:flex-row flex-col gap-3 max-w-7xl mx-auto py-4 bg-zinc-50">
+            <div class="md:basis-2/5 rounded-lg flex flex-col justify-between p-1">
+                <div class="w-full flex flex-col gap-2 p-4">
+                    <div>
+                        <div class="w-full text-left">
+                            <nav aria-label="breadcrumb" class="block w-full capitalize">
+                                <ol class="flex w-full flex-wrap items-center rounded-md bg-blue-gray-50 bg-opacity-60 pb-4">
+                                    <li class="flex cursor-pointer items-center font-sans text-sm font-normal leading-normal text-blue-gray-900 antialiased transition-colors duration-300 hover:text-pink-500">
+                                        @if(isset($product->categories->last()->parentCategory->parentCategory->parentCategory->slug))
+                                            <a class="opacity-60 p-4 md:p-1"
+                                               href="{{ route('category', [
+    $product->categories->last()->parentCategory->parentCategory->parentCategory->slug
+    ]) }}">
+                                            <span>
+                                                {{$product->categories->last()->parentCategory->parentCategory->parentCategory->name}}
+                                            </span>
+                                            </a>
+                                        @else
+                                            <a class="opacity-60 p-4 md:p-1"
+                                               href="{{ route('category', [
+    $product->categories->first()->parentCategory->parentCategory->parentCategory->slug
+    ]) }}">
+                                            <span>
+                                                {{$product->categories->first()->parentCategory->parentCategory->parentCategory->name}}
+                                            </span>
+                                            </a>
+                                        @endif
+                                        <span
+                                            class="pointer-events-none mx-2 select-none font-sans text-sm font-normal leading-normal text-blue-gray-500 antialiased">
+                                      /
+                                    </span>
+                                    </li>
+                                    <li class="flex cursor-pointer items-center font-sans text-sm font-normal leading-normal text-blue-gray-900 antialiased transition-colors duration-300 hover:text-pink-500">
+                                        @if(isset($product->categories->last()->parentCategory->parentCategory->slug))
+                                            <a class="opacity-60 p-4 md:p-1"
+                                               href="{{ route('category', [
+    $product->categories->last()->parentCategory->parentCategory->parentCategory->slug,
+    $product->categories->last()->parentCategory->parentCategory->slug,
+    ]) }}">
+                                            <span>
+                                                {{$product->categories->last()->parentCategory->parentCategory->name}}
+                                            </span>
+                                            </a>
+                                        @else
+                                            <a class="opacity-60 p-4 md:p-1"
+                                               href="{{ route('category', [
+    $product->categories->first()->parentCategory->parentCategory->parentCategory->slug,
+    $product->categories->first()->parentCategory->parentCategory->slug,
+    ]) }}">
+                                            <span>
+                                                {{$product->categories->first()->parentCategory->parentCategory->name}}
+                                            </span>
+                                            </a>
+                                        @endif
+                                        <span
+                                            class="pointer-events-none mx-2 select-none font-sans text-sm font-normal leading-normal text-blue-gray-500 antialiased">
+                                      /
+                                    </span>
+                                    </li>
+                                    <li class="flex cursor-pointer items-center font-sans text-sm font-normal leading-normal text-blue-gray-900 antialiased transition-colors duration-300 hover:text-pink-500">
+                                        @if(isset($product->categories->last()->parentCategory->slug))
+                                            <a class="opacity-60 p-4 md:p-1"
+                                               href="{{ route('category', [
+    $product->categories->last()->parentCategory->parentCategory->parentCategory->slug,
+    $product->categories->last()->parentCategory->parentCategory->slug,
+    $product->categories->last()->parentCategory->slug,
+    ]) }}">
+                                            <span>
+                                                {{$product->categories->last()->parentCategory->name}}
+                                            </span>
+                                            </a>
+                                        @else
+                                            <a class="opacity-60 p-4 md:p-1"
+                                               href="{{ route('category', [
+    $product->categories->first()->parentCategory->parentCategory->parentCategory->slug,
+    $product->categories->first()->parentCategory->parentCategory->slug,
+    $product->categories->first()->parentCategory->slug,
+    ]) }}">
+                                            <span>
+                                                {{$product->categories->first()->parentCategory->name}}
+                                            </span>
+                                            </a>
+                                        @endif
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+
+                        <h1 class="sm:text-2xl text-xl font-medium uppercase">{{$product->name}}</h1>
+                        <div class="flex flex-row py-2 justify-center items-center">
+                            <small class="text-xs"><span class="font-bold">REF:</span> #{{$product->sku_id}}</small>
+                            <div class="flex grow justify-end text-gray-600 font-semibold">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                     class="w-6 h-6">
+                                    <path fill-rule="evenodd"
+                                          d="M15.75 4.5a3 3 0 1 1 .825 2.066l-8.421 4.679a3.002 3.002 0 0 1 0 1.51l8.421 4.679a3 3 0 1 1-.729 1.31l-8.421-4.678a3 3 0 1 1 0-4.132l8.421-4.679a3 3 0 0 1-.096-.755Z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex flex-row gap-1">
+
+                            {{--                            <div class="flex text-amber-300 grow">--}}
+                            {{--                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"--}}
+                            {{--                                     class="w-6 h-6">--}}
+                            {{--                                    <path fill-rule="evenodd"--}}
+                            {{--                                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"--}}
+                            {{--                                          clip-rule="evenodd"/>--}}
+                            {{--                                </svg>--}}
+                            {{--                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"--}}
+                            {{--                                     class="w-6 h-6">--}}
+                            {{--                                    <path fill-rule="evenodd"--}}
+                            {{--                                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"--}}
+                            {{--                                          clip-rule="evenodd"/>--}}
+                            {{--                                </svg>--}}
+                            {{--                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"--}}
+                            {{--                                     class="w-6 h-6">--}}
+                            {{--                                    <path fill-rule="evenodd"--}}
+                            {{--                                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"--}}
+                            {{--                                          clip-rule="evenodd"/>--}}
+                            {{--                                </svg>--}}
+                            {{--                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"--}}
+                            {{--                                     class="w-6 h-6">--}}
+                            {{--                                    <path fill-rule="evenodd"--}}
+                            {{--                                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"--}}
+                            {{--                                          clip-rule="evenodd"/>--}}
+                            {{--                                </svg>--}}
+                            {{--                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"--}}
+                            {{--                                     class="w-6 h-6">--}}
+                            {{--                                    <path fill-rule="evenodd"--}}
+                            {{--                                          d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"--}}
+                            {{--                                          clip-rule="evenodd"/>--}}
+                            {{--                                </svg>--}}
+                            {{--                            </div>--}}
+
+                            {{--                            <div class="flex grow ml-2">--}}
+                            {{--                                <p class="text-gray-600 font-semibold"> 5.0 {{__('products.comentarios')}} (2K)</p>--}}
+                            {{--                            </div>--}}
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3 p-4">
+                    @foreach($product->infos as $info)
+                        <div>
+                            <h1 class="text-2xl text-bioclin font-bold capitalize">{{$info->name}}</h1>
+                            <div class="text-base text-gray-600 text-left">{!! Str::markdown($info->description) !!}</div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="flex sm:flex-row flex-col p-4 justify-between">
+                    <div class="px-3 py-2 bg-bioclin border border-white rounded-lg text-white text-sm">
+                        <span>{{__('products.cod_prod')}}: </span>
+                        <span class="font-semibold">{{$product->cod_prod}}</span>
+                    </div>
+                    <div class="px-3 py-2 bg-bioclin border border-white rounded-lg text-white text-sm">
+                        <span>{{__('products.sku')}}: </span>
+                        <span class="font-semibold">{{$product->sku_id}}</span>
+                    </div>
+                    <div class="px-3 py-2 bg-bioclin border border-white rounded-lg text-white text-sm">
+                        <span>{{__('products.peso')}}: </span>
+                        <span class="font-semibold">{{$product->convert_gr_kg($product->weight)}} Kg</span>
+                    </div>
+                </div>
+
+            </div>
+            <!--INICIO GALERIA-->
+            <div class="md:basis-3/5 rounded-lg flex w-full text-center items-center bg-gray-100">
+                <div class="grid grid-flow-col gap-2 w-full h-96 md:h-full p-4">
+                    @if( $product->images !== null)
+                        @foreach($product->images as $image)
+                            <div
+                                class="row-span-2 col-span-2 grid place-items-center bg-cover bg-no-repeat bg-center cursor-pointer shadow-lg shadow-gray-500 rounded-md"
+                                style="background-image: url('{{@asset("storage/".$image)}}')"
+                                data-fancybox="gallery"
+                                data-caption="{{$image}}" data-src='{{@asset("storage/".$image)}}'>
+                            </div>
+                        @endforeach
+                    @else
+                        <div
+                            class="row-span-2 col-span-2 grid place-items-center bg-cover bg-no-repeat bg-center cursor-pointer shadow-gray-500 grayscale"
+                            style="background-image: url('{{@asset('img/products/none.webp')}}')">
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <!--FIM GALERIA-->
+        </div>
+
+        {{--            informações do produto inicio--}}
+        <div class="flex flex-row sm:flex-col gap-6 max-w-7xl mx-auto py-6 px-4 bg-zinc-50 border rounded-lg shadow-md">
+            <div>
+                <ul class="flex flex-col sm:flex-row gap-6 text-bioclin text-lg font-medium" id="tab">
+                    @foreach($product->descriptions as $description)
+                        <li onclick="toggleClassAndShowDiv(this, 'div{{$description->id}}')"
+                            class=" truncate px-2 cursor-pointer hover:text-cinzabioclin
+                            @if($description->id === 1) border-b-2 @else border-none @endif  border-cinzabioclin">
+                            {{$description->name}}
+                        </li>
+                    @endforeach
+                    @if(isset($product->attachments))
+                        <li onclick="toggleClassAndShowDiv(this, 'div40')"
+                            class="px-2 cursor-pointer hover:text-cinzabioclin border-none border-cinzabioclin capitalize">
+                            {{__('welcome.documentos')}}
+                        </li>
+                    @endif
+                </ul>
+            </div>
+            <div id="content" class="min-h-56 sm:min-h-32 py-2 px-6 line">
+
+                @foreach($product->descriptions as $description)
+                    <div id="div{{$description->id}}"
+                         class="content @if($description->id === $first_desc->id) block @else hidden @endif  text-gray-600 list-disc leading-10">
+                        {!! Str::markdown($description->description) !!}
+                    </div>
+                @endforeach
+                @if(isset($product->attachments))
+                    <div id="div40" class="content hidden">
+                        <ul class="leading-10">
+                            @foreach($product->attachments as $attachment)
+                                <li>
+                                    <a href="@if(isset($attachment->file)){{@asset("storage/".$attachment->file)}}@else{{$attachment->register}} @endif"
+                                       class="flex items-center text-gray-600" target="_blank">
+                                        @if($attachment->type_attachment_id == $first_desc->id)
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor"
+                                                 class="w-6 h-6 mr-3 text-teal-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                                            </svg>
+                                        @else
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor"
+                                                 class="w-6 h-6 mr-3 text-teal-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244"/>
+                                            </svg>
+                                        @endif
+                                        {{$attachment->name}}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+
+            </div>
+        </div>
+    </main>
+@endsection
+
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <script>
+        Fancybox.bind('[data-fancybox="gallery"]', {
+            //
+        });
+    </script>
+    <script>
+        function mudarImagem(caminho) {
+            // Obtém a referência à imagem grande em destaque
+            var imagemDestaque = document.getElementById('destaque').getElementsByTagName('img')[0];
+
+            var ancora = document.getElementById('destaque');
+
+            // Define o atributo data-src da âncora com o caminho da imagem
+            ancora.setAttribute('data-src', caminho);
+
+            // Atualiza o atributo 'src' da imagem grande
+            imagemDestaque.src = caminho;
+        }
+
+        function toggleClassAndShowDiv(element, divId) {
+            // Remove a classe 'border-b-2' de todos os elementos da lista
+            var listaItems = document.getElementById('tab').getElementsByTagName('li');
+            for (var i = 0; i < listaItems.length; i++) {
+                listaItems[i].classList.remove('border-b-2');
+                listaItems[i].classList.add('border-none');
+            }
+
+            // Adiciona a classe 'border-b-2' ao elemento clicado
+            element.classList.remove('border-none');
+            element.classList.add('border-b-2');
+
+            // Esconde todas as divs
+            var divs = document.getElementById('content').getElementsByTagName('div');
+            for (var i = 0; i < divs.length; i++) {
+                divs[i].classList.add('hidden');
+            }
+
+            // Exibe a div correspondente
+            document.getElementById(divId).classList.remove('hidden');
+            document.getElementById(divId).classList.add('block');
+        }
+    </script>
+@endsection
